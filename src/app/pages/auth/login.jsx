@@ -8,8 +8,8 @@ import {Link} from 'react-router-dom';
 
 
 function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('shuajb@gmail.com');
+    const [password, setPassword] = useState('Shuajb123!');
     const [errorMsg, setErrorMsg] = useState(null);
     const [loading, setLoading] = useState(false)
     const {login} = useAuth();
@@ -29,7 +29,6 @@ function Login() {
                 setErrorMsg(error.message);
                 setLoading(false)
             } else {
-                login()
                 localStorage.setItem('user', JSON.stringify(data));
                 navigate('/jobs');
             }

@@ -4,6 +4,7 @@ import {useAuth} from "../../context/AuthContext";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
 import {Password} from "primereact/password";
+import {supabase} from "../../../supabaseClient.js";
 
 function Register() {
     const [name, setName] = useState('');
@@ -45,10 +46,11 @@ function Register() {
             const userData = {
                 first_name: name,
                 last_name: surname,
-                full_name: `${name} ${surname}`
+                full_name: `${name} ${surname}`,
+                role: 'user'
             };
 
-            const {data, error} = await signUp(email, password, userData);
+            const {data: session, error} = await signUp(email, password, userData);
 
             if (error) {
                 setError(error.message);
@@ -78,7 +80,6 @@ function Register() {
                 <h2 className="text-center text-2xl font-bold">
                     Welcome, sign up
                 </h2>
-                {/* {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>} */}
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

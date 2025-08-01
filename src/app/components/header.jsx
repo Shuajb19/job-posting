@@ -4,9 +4,7 @@ import {NavLink, useNavigate} from 'react-router-dom'
 import logo from '../../assets/jobify.png'
 
 function Header() {
-    const {logout, isAuthenticated} = useAuth()
-    const navigate = useNavigate()
-
+    const {logout, isAuthenticated, role} = useAuth()
     const handleLogout = () => {
         logout()
         localStorage.removeItem('user')
@@ -29,14 +27,14 @@ function Header() {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink
+                            {role === 'admin' && <NavLink
                                 to="/jobs-management"
                                 className={({isActive}) =>
                                     `flex items-center justify-center text-gray-300 h-10 w-auto p-4 hover:bg-gray-700 rounded-md cursor-pointer ${isActive ? 'bg-gray-900 text-white' : ''}`
                                 }
                             >
                                 Jobs Management
-                            </NavLink>
+                            </NavLink>}
                         </li>
                     </ul>
                 </nav>

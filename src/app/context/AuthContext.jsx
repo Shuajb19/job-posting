@@ -1,62 +1,63 @@
-import React, {createContext, useState, useContext, useEffect} from 'react';
-import {supabase} from '../../supabaseClient';
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { supabase } from '../../supabaseClient';
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const role = user?.user_metadata?.role?.role ?? null;
+
 
     useEffect(() => {
         const getSession = async () => {
-            const {data: {session}} = await supabase.auth.getSession();
+            const { data: { session } } = await supabase.auth.getSession();
             setUser(session?.user ?? null);
-            setLoading(false);
         };
 
         getSession();
 
-        const {data: {subscription}} = supabase.auth.onAuthStateChange(
-            async (event, session) => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+            async (_event, session) => {
                 setUser(session?.user ?? null);
-                setLoading(false);
             }
         );
 
         return () => subscription.unsubscribe();
     }, []);
 
+
     const login = async (email, password) => {
-        const {data, error} = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
         });
-        return {data, error};
+        return { data, error };
     };
 
     const logout = async () => {
-        const {error} = await supabase.auth.signOut();
-        return {error};
+        const { error } = await supabase.auth.signOut();
+        setUser(null);
+        return { error };
     };
 
-    const signUp = async (email, password, userData) => {
-        const {data, error} = await supabase.auth.signUp({
+    const signUp = async (email, password, role = 'admin') => {
+        const { data, error } = await supabase.auth.signUp({
             email,
             password,
             options: {
-                data: userData
+                data: { role }
             }
         });
-        return {data, error};
+        return { data, error };
     };
 
     const value = {
         user,
-        loading,
+        role,
         login,
         logout,
         signUp,
-        isAuthenticated: !!user
+        isAuthenticated: !!user,
     };
 
     return (
