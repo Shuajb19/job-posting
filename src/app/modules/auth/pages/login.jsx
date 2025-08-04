@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
-import {supabase} from "../../../supabaseClient.js";
+import {supabase} from "../../../../supabaseClient.js";
 import {useNavigate} from 'react-router-dom';
-import {useAuth} from "../../context/AuthContext.jsx";
+import {useAuth} from "../../../context/AuthContext.jsx";
 import {Link} from 'react-router-dom';
 
 

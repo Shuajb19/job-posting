@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import {useAuth} from "../../context/AuthContext";
+import {useAuth} from "../../../context/AuthContext.jsx";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
 import {Password} from "primereact/password";
-import {supabase} from "../../../supabaseClient.js";
+import {supabase} from "../../../../supabaseClient.js";
 
 function Register() {
     const [name, setName] = useState('');
