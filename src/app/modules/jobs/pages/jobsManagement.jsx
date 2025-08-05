@@ -63,8 +63,8 @@ function JobsManagement() {
                             onClick={() => goToJob(data?.id)}
                             className="flex min-h-[94px] gap-2 border border-transparent hover:border hover:border-blue-300 rounded-md bg-gray-900 cursor-pointer p-2"
                         >
-                            <div className="w-[94px] w-20">
-                                <Image src={data?.image_url} alt="Image" />
+                            <div className="w-[94px]">
+                                <img src={data?.image_url} className="w-full h-full object-cover" alt="Image" />
                             </div>
                             <div className="flex flex-col justify-between w-full px-2">
                                 <div>

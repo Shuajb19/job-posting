@@ -105,7 +105,7 @@ function ApplicationPage() {
         <div className="flex p-2 px-8">
             <div className="fixed">
                 <div className="h-[300px] w-[300px] border border-gray-700 rounded-md p-2">
-                    <Image src={jobs?.image_url} preview />
+                    <img src={jobs?.image_url} className="h-full w-full object-cover" />
                 </div>
                 <p className="mt-2 text-gray-400 w-[300px]">You're applying for <strong>{jobs?.position_title}</strong> at <strong>{jobs?.company_name}</strong></p>
             </div>

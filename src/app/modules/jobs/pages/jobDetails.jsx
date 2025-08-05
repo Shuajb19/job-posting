@@ -50,7 +50,7 @@ function JobDetails() {
         <div className="max-lg:flex max-lg:flex-col max-lg:items-center max-lg:gap-10 p-2 px-8 h-[calc(100vh_-_var(--header-height))]">
             {loading ? <Loading/> : ''}
             <div className="min-lg:fixed h-[300px] w-[300px] border border-gray-700 rounded-md p-2">
-                <Image src={jobs?.image_url} preview/>
+                <img src={jobs?.image_url} className="w-full h-full object-cover" />
             </div>
             <div className="flex flex-col gap-10 min-lg:ml-[320px]">
                 <div className="">
