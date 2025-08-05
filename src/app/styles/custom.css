@@ -10,3 +10,7 @@
 .p-overlaypanel .p-overlaypanel-content {
     padding: 0;
 }
+
+.p-datatable-wrapper {
+    border-radius: 5px;
+}

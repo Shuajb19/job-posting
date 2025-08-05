@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import CreateJobPopup from '../popups/CreateJobPopup';
-import { Button } from 'primereact/button';
 import { supabase } from "../../../../supabaseClient.js";
 import Loading from '../../../components/loading.jsx'
 import { Image } from 'primereact/image';
 import { useNavigate } from 'react-router-dom';
-import moment from 'moment'
+import {formatDate} from "@/app/services/helpers.js";
 
 function Jobs() {
     const [jobs, setJobs] = useState([])
@@ -36,7 +34,7 @@ function Jobs() {
     }
 
     return (
-        <div className="p-4 relative min-h-[calc(100vh - var(--header-height))]">
+        <div className="p-4 relative h-[calc(100vh_-_var(--header-height))]">
             {loading ? <Loading /> : ''}
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(320px,_1fr))] gap-8 mt-4">
                 {jobs.map((data, index) => (
@@ -52,7 +50,7 @@ function Jobs() {
                             <div className="flex pt-1 gap-4 text-gray-400">
                                 <div className="flex gap-2">
                                     <i className="pi pi-clock"></i>
-                                    <p className="text-[12px]">{moment(data?.deadline).format('DD/MM/YYYY')}</p>
+                                    <p className="text-[12px]">{formatDate(data?.deadline)}</p>
                                 </div>
                                 <div className="flex gap-2">
                                     <i className="pi pi-map-marker"></i>
