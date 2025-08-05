@@ -10,7 +10,7 @@ import { supabase } from "../../../../supabaseClient.js";
 import { useAuth } from "../../../context/AuthContext.jsx";
 import { uploadFileToStorage } from "../../../services/supabaseStorage.js";
 
-const CreateJobPopup = ({ trigger, data }) => {
+const CreateJobPopup = ({ trigger, data, onCreate }) => {
   const { user } = useAuth();
   const [visible, setVisible] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -25,13 +25,13 @@ const CreateJobPopup = ({ trigger, data }) => {
   } = useForm({
     resolver: yupResolver(formSchema),
     defaultValues: {
-      position_title: "Frontend Developer",
-      company_name: "Google",
+      position_title: "",
+      company_name: "",
       deadline: new Date(),
       job_description: "",
-      location: "Prishtine",
-      category: "IT",
-      employment_type: "Full-time",
+      location: "",
+      category: "",
+      employment_type: "",
       image_url: "",
     },
   });
@@ -71,14 +71,13 @@ const CreateJobPopup = ({ trigger, data }) => {
           },
         ])
 
-      if (error) {
-        console.error('Insert error:', error)
-      } else {
-        console.log('Job created:', data)
-        close();
+      if (onCreate) {
+        onCreate();
       }
     } catch (error) {
       console.error('Error creating job:', error);
+    } finally {
+      close();
     }
   };
 
@@ -97,7 +96,7 @@ const CreateJobPopup = ({ trigger, data }) => {
     <>
       {triggerWithClick}
 
-      <Dialog className="w-1/2" header="Create Job" visible={visible} onHide={close} draggable={false} modal>
+      <Dialog className="lg:w-1/2 md:w-[80%]" header="Create Job" visible={visible} onHide={close} draggable={false} modal>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="grid grid-cols-[repeat(auto-fill,_minmax(230px,_1fr))] gap-8">
 
@@ -160,7 +159,7 @@ const CreateJobPopup = ({ trigger, data }) => {
             ))}
           </div>
           <div className="flex justify-end gap-2 mt-4">
-            <Button onClick={close} severity='secondary' label='Close' />
+            <Button type="button" onClick={close} severity='secondary' label='Close' />
             <Button 
               type='submit' 
               severity='info' 

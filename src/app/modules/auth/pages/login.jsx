@@ -30,7 +30,13 @@ function Login() {
                 setLoading(false)
             } else {
                 localStorage.setItem('user', JSON.stringify(data));
-                navigate('/jobs');
+                const url = localStorage.getItem('url')
+                if (url) {
+                    navigate(url)
+                    localStorage.removeItem('url')
+                } else {
+                    navigate('/jobs');
+                }
             }
         } catch (error) {
             console.log(error)

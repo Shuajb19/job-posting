@@ -9,7 +9,7 @@ import {uploadFileToStorage} from "@/app/services/supabaseStorage.js";
 import {useAuth} from "@/app/context/AuthContext.jsx";
 import {Image} from "primereact/image";
 import {supabase} from "@/supabaseClient.js";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 function ApplicationPage() {
     const { id } = useParams()
@@ -17,6 +17,7 @@ function ApplicationPage() {
     const [loading, setLoading] = useState(true)
     const [uploadedFile, setUploadedFile] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
+    const navigate = useNavigate()
     const {
         control,
         handleSubmit,
@@ -26,16 +27,17 @@ function ApplicationPage() {
     } = useForm({
         resolver: yupResolver(applicationFormSchema),
         defaultValues: {
-            name: "",
-            surname: "",
-            email: "",
-            gender: "",
-            birth_date: new Date(),
-            city: "",
-            phone_number: "",
-            language: "",
-            cv: "",
-            additional_data: ""
+            name: "Shuajb",
+            surname: "Ahmeti",
+            email: "shuajb@gmail.com",
+            gender: "male",
+            date_of_birth: new Date(),
+            city: "Prishtine",
+            phone_number: "044520051",
+            language: "English",
+            cv_url: "",
+            additional_data: "Qa ka qa ska",
+            job_position_id: id
         },
     });
 
@@ -64,13 +66,12 @@ function ApplicationPage() {
         try {
             setIsUploading(true);
 
-            const result = await uploadFileToStorage(file);
+            const result = await uploadFileToStorage(file, 'candidates-data', 'CV');
 
             if (result.success) {
-                setValue('image_url', result.url);
+                setValue('cv_url', result.url);
                 setUploadedFile({ name: file.name, url: result.url });
 
-                console.log('File uploaded successfully:', result.url);
                 return result.url;
             } else {
                 throw new Error(result.error);
@@ -84,8 +85,20 @@ function ApplicationPage() {
         }
     };
 
-    const onSubmit = (param) => {
-        console.log(param)
+    const onSubmit = async (params) => {
+        try {
+            const { data, error } = await supabase
+                .from('applications')
+                .insert([
+                    {
+                        ...params
+                    },
+                ])
+        } catch (error) {
+            console.error('Error creating job:', error);
+        } finally {
+            navigate('/applied-successfully')
+        }
     }
 
     return (
@@ -98,7 +111,7 @@ function ApplicationPage() {
             </div>
             <div className="w-full ml-[320px] mb-10">
                 <form onSubmit={handleSubmit(onSubmit)} className="">
-                    <div className="grid grid-cols-[repeat(auto-fill,_minmax(400px,_1fr))] gap-8">
+                    <div className="grid grid-cols-[repeat(auto-fill,_minmax(400px,_1fr))] gap-8 ">
                         {applicationFormFields.map(({ name, label, component: Component, options, placeholder, classes }) => (
                             <div key={name} className={classes} >
                                 <label className="block font-medium mb-1">{label}</label>
@@ -125,7 +138,7 @@ function ApplicationPage() {
                                                 }
                                             } : undefined}
                                             placeholder={placeholder}
-                                            accept="image/*"
+                                            accept=".pdf,.doc,.docx"
                                             maxFileSize={5000000}
                                             customUpload={true}
                                             auto
@@ -138,20 +151,13 @@ function ApplicationPage() {
                                     <p className="text-red-500 text-sm mt-1">{errors[name]?.message}</p>
                                 )}
 
-                                {name === 'image_url' && uploadedFile && (
+                                {name === 'cv_url' && uploadedFile && (
                                     <div className="mt-2">
                                         <p className="text-sm text-green-600">✓ {uploadedFile.name} uploaded successfully</p>
-                                        {uploadedFile.url && (
-                                            <img
-                                                src={uploadedFile.url}
-                                                alt="Uploaded preview"
-                                                className="mt-2 w-20 h-20 object-cover rounded"
-                                            />
-                                        )}
                                     </div>
                                 )}
 
-                                {name === 'image_url' && isUploading && (
+                                {name === 'cv_url' && isUploading && (
                                     <p className="text-sm text-blue-600 mt-2">Uploading...</p>
                                 )}
                             </div>

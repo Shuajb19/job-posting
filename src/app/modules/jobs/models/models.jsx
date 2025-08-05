@@ -49,11 +49,11 @@ export const applicationFormSchema = yup.object({
     surname: yup.string().required("Surname is required"),
     email: yup.string().required("Email is required"),
     gender: yup.string().required("Gender is required"),
-    birth_date: yup.date().required("Birthdate is required"),
+    date_of_birth: yup.date().required("Birthdate is required"),
     city: yup.string().required("City is required"),
     phone_number: yup.string().required("Phone number is required"),
     language: yup.string().required("Language is required"),
-    cv: yup.string().required("CV is required"),
+    cv_url: yup.string().required("CV is required"),
     additional_data: yup.string(),
 });
 
@@ -66,16 +66,16 @@ export const applicationFormFields = [
         label: "Gender",
         component: Dropdown,
         options: [
-            {label: "Male", value: "male"},
-            {label: "Female", value: "female"},
+            {label: "Male", value: "Male"},
+            {label: "Female", value: "Female"},
         ],
         optionLabel: "label",
         placeholder: "Select gender",
     },
-    {name: "birth_date", label: "Date of birth", component: Calendar, placeholder: "Enter date of birth"},
+    {name: "date_of_birth", label: "Date of birth", component: Calendar, placeholder: "Enter date of birth"},
     {name: "city", label: "City", component: InputText, placeholder: "Enter city name"},
     {name: "phone_number", label: "Phone number", component: InputText, placeholder: "Enter phone number"},
     {name: "language", label: "Language", component: InputText, placeholder: "Enter foreign language spoken"},
     {name: "additional_data", label: "Additional data", component: InputTextarea, placeholder: "Write additional data", classes: 'w-full col-span-full'},
-    {name: "cv", label: "CV", component: FileUpload, placeholder: "Enter CV", classes: 'col-span-full'}
+    {name: "cv_url", label: "CV", component: FileUpload, placeholder: "Enter CV", classes: 'col-span-full'}
 ];

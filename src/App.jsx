@@ -9,6 +9,8 @@ import JobsManagement from "./app/modules/jobs/pages/jobsManagement.jsx";
 import Register from "./app/modules/auth/pages/register.jsx";
 import JobDetails from './app/modules/jobs/pages/jobDetails.jsx';
 import ApplicationPage from "@/app/modules/jobs/pages/applicationPage.jsx";
+import AppliedSuccessfully from "@/app/components/appliedSuccessfully.jsx";
+import Candidates from "@/app/modules/candidates/pages/candidates.jsx";
 
 
 function App() {
@@ -18,7 +20,7 @@ function App() {
 
     return (
         <div>
-            <div className="pb-[90px]">{showNavbar && <Header/>}</div>
+            <div className="pb-(--header-height)">{showNavbar && <Header/>}</div>
             <Routes>
                 <Route
                     path="/"
@@ -53,9 +55,19 @@ function App() {
                 <Route
                     path="/application-page/:id"
                     element={
-                        <PrivateRoute>
                             <ApplicationPage/>
-                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/applied-successfully"
+                    element={
+                        <AppliedSuccessfully />
+                    }
+                />
+                <Route
+                    path="/candidates"
+                    element={
+                        <Candidates />
                     }
                 />
             </Routes>
